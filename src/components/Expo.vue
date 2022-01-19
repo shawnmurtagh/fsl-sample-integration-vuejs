@@ -1,59 +1,77 @@
 <template>
-  <div class="container">
-  <div class="row">
-    <div class="col-12">
-      <h1> {{msg}} </h1>
-    </div>
-  </div>
-    <div class="row">
+  <b-container>
+    <!-- <b-row>
       <b-form @submit="onSubmit" v-if="show">
-      <b-form-group
+      
+        <b-form-row>
+          <b-form-input
+          id="input-1"
+          v-model="form.subscriptionKey"
+          placeholder="Subscription-Key Header"
+          required
+          ></b-form-input>
+        </b-form-row>
+        <b-form-row></b-form-row>
+        <b-form-input class="col-12"
+          id="input-1"
+          v-model="form.bearerToken"
+          placeholder="Bearer Token"
+          required
+        ></b-form-input>
+        <b-form-group
         id="input-group-1"
-        label="Message: " 
+        label="" 
         label-for="input-1">
-        <b-form-input
-          id="input-1"
-          v-model="form.beaconId"
-          placeholder="Beacon Id"
-          required
-        ></b-form-input>
-        <b-form-input
-          id="input-1"
-          v-model="form.name"
-          placeholder="Beacon Name"
-          required
-        ></b-form-input>
-        <b-form-input
-          id="input-1"
-          v-model="form.expoID"
-          placeholder="Expo Id"
-          required
-        ></b-form-input>
-        <b-form-input
-          id="input-1"
-          v-model="form.message"
-          placeholder="Message"
-          required
-        ></b-form-input>
-        <b-form-input
-          id="input-1"
-          v-model="basicAuthHeader"
-          placeholder="Auth Key"
-        ></b-form-input>
+        <template #prepend>
+          
+        </template>
+        <b-form-row>
+          <b-col cols="1">
+            <b-dropdown
+            id="dropdown-1"
+            v-model="form.method"
+            placeholder="HttpMethod"
+            required
+            >
+              <template #button-content>
+                {{form.method}}
+              </template>
+              <b-dropdown-item v-for="option in options" :key="option" @click="form.method = option">{{option}}</b-dropdown-item>
+              <b-dropdown-divider></b-dropdown-divider>
+              <b-dropdown-item disabled>DELETE</b-dropdown-item>
+            </b-dropdown>
+          </b-col>
+          <b-col cols="6">{{url}}</b-col>
+          <b-col cols="5">
+            <b-form-input
+            id="input-1"
+            v-model="form.endpoint"
+            placeholder="route"
+            required
+            ></b-form-input>
+          </b-col>
+        </b-form-row>
       </b-form-group>
+        
+        <b-form-textarea
+          id="input-1"
+          v-model="form.payload"
+          placeholder="Payload"
+          rows="6"
+          max-rows="6"
+        ></b-form-textarea>
       <b-button type="submit" variant="primary">Submit</b-button>
     </b-form>
-    </div>
-    <b-card class="mt-3" header="Payload to send to the api">
-      <pre class="m-0">{{ form }}</pre>
-    </b-card>
+    </b-row> -->
+    <b-button @click="login" variant="primary">Login</b-button>
+    <div>response: {{response}}</div>
     <b-alert  variant="success" 
               dismissible 
               :show="showAlert"
               @dismissed="showAlert=false">
       {{alertMessage}}
     </b-alert>
-  </div>
+  </b-container>
 </template>
 
 <script lang="ts">
@@ -68,12 +86,15 @@ export default class Expo extends Vue {
   private showAlert: boolean = false;
   private alertMessage: string = '';
   private basicAuthHeader = 'shawnmurtagh';
-  private form: Exhibit = {
-    beaconId:"",
-    name:"",
-    expoID:0,
-    message:""
+  private form: any = {
+    subscriptionKey:"",
+    bearerToken:"",
+    endpoint:"",
+    method:"GET",
+    payload:""
     }
+  private options: string[] = ['GET', 'PATCH', 'POST']
+  private url: string = 'https://dev-api.foundationsoft.com/foundation/v1/'
 
   public async onSubmit (event: any): Promise<any>{
     event.preventDefault();
