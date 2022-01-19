@@ -1,0 +1,1 @@
+# fsl-sample-integration-vuejs
