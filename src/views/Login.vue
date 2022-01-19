@@ -10,7 +10,7 @@
 
 <script lang="ts">
 import { Vue } from 'vue-property-decorator';
-import axios from 'axios';
+import { Axios } from 'axios';
 
 export default class Login extends Vue {
     private form: any = {}
@@ -35,7 +35,7 @@ export default class Login extends Vue {
       ];
 
       private async onSubmit(loginData: any): Promise<void>{
-        await axios.post('http://localhost:8081/auth', loginData);
+        await Axios.prototype.post('http://localhost:8081/auth', loginData);
         alert(`Thank you, ${loginData.username}`);
       }
 }
